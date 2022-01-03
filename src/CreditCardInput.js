@@ -22,9 +22,6 @@ const s = StyleSheet.create({
   form: {
     marginTop: 20,
   },
-  inputContainer: {
-    marginLeft: 20,
-  },
   inputLabel: {
     fontWeight: "bold",
   },
@@ -37,13 +34,19 @@ const s = StyleSheet.create({
   },
 });
 
-const CVC_INPUT_WIDTH = 70;
-const EXPIRY_INPUT_WIDTH = CVC_INPUT_WIDTH + 90;
+// const CVC_INPUT_WIDTH = 70;
+const CVC_INPUT_WIDTH = "90%";
+// const EXPIRY_INPUT_WIDTH = CVC_INPUT_WIDTH + 90;
+const EXPIRY_INPUT_WIDTH = "90%";
+
 const CARD_NUMBER_INPUT_WIDTH_OFFSET = 40;
-const CARD_NUMBER_INPUT_WIDTH =
-  Dimensions.get("window").width -
-  EXPIRY_INPUT_WIDTH -
-  CARD_NUMBER_INPUT_WIDTH_OFFSET;
+
+// const CARD_NUMBER_INPUT_WIDTH =
+//   Dimensions.get("window").width -
+//   EXPIRY_INPUT_WIDTH -
+//   CARD_NUMBER_INPUT_WIDTH_OFFSET;
+const CARD_NUMBER_INPUT_WIDTH = "100%";
+
 const NAME_INPUT_WIDTH = CARD_NUMBER_INPUT_WIDTH;
 const PREVIOUS_FIELD_OFFSET = 40;
 const POSTAL_CODE_INPUT_WIDTH = 120;
@@ -111,10 +114,8 @@ export default class CreditCardInput extends Component {
 
   _focus = (field) => {
     if (!field) return;
-
     const scrollResponder = this.refs.Form.getScrollResponder();
     const nodeHandle = ReactNative.findNodeHandle(this.refs[field]);
-
     NativeModules.UIManager.measureLayoutRelativeToParent(
       nodeHandle,
       (e) => {
@@ -156,17 +157,14 @@ export default class CreditCardInput extends Component {
       placeholderColor,
       ref: field,
       field,
-
       label: labels[field],
       placeholder: placeholders[field],
       value: values[field],
       status: status[field],
-
       onFocus,
       onChange,
       onBecomeEmpty,
       onBecomeValid,
-
       additionalInputProps: additionalInputsProps[field],
     };
   };
@@ -189,20 +187,22 @@ export default class CreditCardInput extends Component {
     } = this.props;
 
     return (
-      <View style={s.container}>
-        <CreditCard
-          focused={focused}
-          brand={type}
-          scale={cardScale}
-          fontFamily={cardFontFamily}
-          imageFront={cardImageFront}
-          imageBack={cardImageBack}
-          customIcons={cardBrandIcons}
-          name={requiresName ? name : " "}
-          number={number}
-          expiry={expiry}
-          cvc={cvc}
-        />
+      <View>
+        <View style={s.container}>
+          <CreditCard
+            focused={focused}
+            brand={type}
+            scale={cardScale}
+            fontFamily={cardFontFamily}
+            imageFront={cardImageFront}
+            imageBack={cardImageBack}
+            customIcons={cardBrandIcons}
+            name={requiresName ? name : " "}
+            number={number}
+            expiry={expiry}
+            cvc={cvc}
+          />
+        </View>
         <ScrollView
           ref="Form"
           horizontal={horizontal}
@@ -215,7 +215,6 @@ export default class CreditCardInput extends Component {
             {...this._inputProps("number")}
             keyboardType="numeric"
             containerStyle={[
-              s.inputContainer,
               inputContainerStyle,
               { width: CARD_NUMBER_INPUT_WIDTH },
             ]}
@@ -225,7 +224,6 @@ export default class CreditCardInput extends Component {
               {...this._inputProps("expiry")}
               keyboardType="numeric"
               containerStyle={[
-                s.inputContainer,
                 inputContainerStyle,
                 { width: EXPIRY_INPUT_WIDTH },
               ]}
@@ -235,7 +233,6 @@ export default class CreditCardInput extends Component {
                 {...this._inputProps("cvc")}
                 keyboardType="numeric"
                 containerStyle={[
-                  s.inputContainer,
                   inputContainerStyle,
                   { width: CVC_INPUT_WIDTH },
                 ]}
@@ -246,7 +243,6 @@ export default class CreditCardInput extends Component {
             <CCInput
               {...this._inputProps("name")}
               containerStyle={[
-                s.inputContainer,
                 inputContainerStyle,
                 { width: NAME_INPUT_WIDTH },
               ]}
@@ -257,7 +253,6 @@ export default class CreditCardInput extends Component {
               {...this._inputProps("postalCode")}
               keyboardType="numeric"
               containerStyle={[
-                s.inputContainer,
                 inputContainerStyle,
                 { width: POSTAL_CODE_INPUT_WIDTH },
               ]}
